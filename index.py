@@ -15,7 +15,7 @@ symbols=Image.open('Symbols.png').resize((stripWidth,symbolHeight)).convert('RGB
 
 #Saves each unique symbol to a variable 
     #theoretically could create a loop and save as an array (I think? Not sure with Python)
-    #An array might not be useful, because you'd either have to add names within the array, or memorize the indices of each symbol
+    #An array might not be useful, because you'd either have to add names within the array, or know the index of each symbol
 symbols = 'Sized-Symbols.png'
 triangle = Image.open(symbols).crop((symbolHeight*0, 0, symbolHeight*1, symbolHeight))
 square = Image.open(symbols).crop((symbolHeight*1, 0, symbolHeight*2, symbolHeight))
