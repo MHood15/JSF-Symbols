@@ -4,7 +4,7 @@ from PIL import Image, ImageDraw, ImageFont, ImageOps
 # create map and resize to a standard size, thus ensuring proper map to symbol ratios
 theMap = Image.open('Map.png').resize((1000, 1000))
 
-#Line 14 only needs to be run once - it resizes the symbol grid and ensures each symbol will be square
+#Line 16/34 only needs to be run once - it resizes the symbol grid and ensures each symbol will be square
     #I manually went in and removed the background from the PNG file provided using GIMP - it was the easiest way I found
     #Math -> height = arbitrary (can be factor of map size)   width = height * # of symbols
     #Assumes the symbols are in one line and all occupy the same size pixel block
