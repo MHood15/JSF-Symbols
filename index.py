@@ -8,10 +8,13 @@ theMap = Image.open('Map.png').resize((1000, 1000))
     #I manually went in and removed the background from the PNG file provided using GIMP - it was the easiest way I found
     #Math -> height = arbitrary (can be factor of map size)   width = height * # of symbols
     #Assumes the symbols are in one line and all occupy the same size pixel block
-numOfSymbols = 5
+equally_sized_box_code = 'lines 12 - 29'
+"""
+numOfSymbols = 6
 symbolHeight = 50   #in pixels
 stripWidth = symbolHeight * numOfSymbols
-symbols=Image.open('Symbols.png').resize((stripWidth,symbolHeight)).convert('RGBA').save('Sized-Symbols.png')
+symbols = Image.open('Modified_Symbols_Transparent.png').resize((stripWidth,symbolHeight)).convert('RGBA').save('Sized-Symbols.png')
+
 
 #Saves each unique symbol to a variable 
     #theoretically could create a loop and save as an array (I think? Not sure with Python)
@@ -20,22 +23,46 @@ symbols = 'Sized-Symbols.png'
 triangle = Image.open(symbols).crop((symbolHeight*0, 0, symbolHeight*1, symbolHeight))
 square = Image.open(symbols).crop((symbolHeight*1, 0, symbolHeight*2, symbolHeight))
 circle = Image.open(symbols).crop((symbolHeight*2, 0, symbolHeight*3, symbolHeight))
-arc = Image.open(symbols).crop((symbolHeight*3, 0, symbolHeight*4, symbolHeight))
-star = Image.open(symbols).crop((symbolHeight*4, 0, symbolHeight*5, symbolHeight))
+uparc = Image.open(symbols).crop((symbolHeight*3, 0, symbolHeight*4, symbolHeight))
+downarc = Image.open(symbols).crop((symbolHeight*4, 0, symbolHeight*5, symbolHeight))
+star = Image.open(symbols).crop((symbolHeight*5, 0, symbolHeight*6, symbolHeight))
+"""
 
-#Allows symbols to be superimposed over the graph
+numOfSymbolsWide = 5
+symbolHeight = 50   #in pixels
+stripWidth = symbolHeight * numOfSymbolsWide
+symbols = Image.open('Symbols.png').resize((stripWidth,symbolHeight)).convert('RGBA').save('Sized-Symbols.png')
+
+symbols = 'Sized-Symbols.png'
+triangle = Image.open(symbols).crop((symbolHeight*0,    0,              symbolHeight*1.1,   symbolHeight))
+square = Image.open(symbols).crop((  symbolHeight*1.1,  0,              symbolHeight*2,     symbolHeight))
+circle = Image.open(symbols).crop((  symbolHeight*2,    0,              symbolHeight*3,     symbolHeight))
+uparc = Image.open(symbols).crop((   symbolHeight*3,    0,              symbolHeight*4,     symbolHeight/2))
+downarc = Image.open(symbols).crop(( symbolHeight*3,    symbolHeight/2, symbolHeight*4,     symbolHeight))
+star = Image.open(symbols).crop((    symbolHeight*4,    0,              symbolHeight*5,     symbolHeight))
+
+
+#Allows symbols to be superimposed over the map
 drawSymbol = ImageDraw.Draw(theMap)
 
-#Not sure why, but the transparency mask I'm using turns the symbols to white, so have to reset to red
+#Color presets
 red = 'rgb(255, 0, 0)'
+green = 'rgb(0, 255, 0)'
+blue = 'rgb(0, 0, 255)'
 
 #Draw each symbol onto the map at given (x,y) coordinate - (0,0) is top left
-drawSymbol.bitmap((200, 200), triangle, fill=red)
-drawSymbol.bitmap((600, 250), square, fill=red)
+drawSymbol.bitmap((200, 200), triangle, fill=blue)
+drawSymbol.bitmap((600, 250), square, fill=green)
 drawSymbol.bitmap((660, 690), circle, fill=red)
-drawSymbol.bitmap((200, 700), arc, fill=red)
-drawSymbol.bitmap((900, 900), star, fill=red)
- 
+drawSymbol.bitmap((200, 700), uparc, fill=green)
+drawSymbol.bitmap((900, 900), downarc, fill=red)
+drawSymbol.bitmap((500, 500), star, fill=red)
+drawSymbol.bitmap((900, 200), uparc.rotate(38), fill=blue)
+drawSymbol.bitmap((850, 400), square.rotate(150, expand='true'), fill=red)
+drawSymbol.bitmap((500, 800), star.resize((round(star.size[0]*2), round(star.size[1]*2))), fill=blue)
+
+
+
 #Show the map (mostly for debugging)
 theMap.show()
 
